@@ -43,7 +43,7 @@ func interactiveShell(conn net.Conn) {
 				if len(argv) > 2 {
 					transport := argv[1]
 					address := argv[2]
-					ok, err := malleable.malleable(transport, address)
+					ok, err := malleable.Malleable(transport, address)
 					if !ok {
 						conn.Write([]byte(err.Error() + "\n"))
 					}
