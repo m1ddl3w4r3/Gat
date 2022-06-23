@@ -15,7 +15,7 @@ import (
 
 // malleable function allows to connect back
 // to either a TCP or HTTP(S) reverse handler
-func malleable(connType, address string) (bool, error) {
+func Malleable(connType, address string) (bool, error) {
 	var (
 		ok  bool
 		err error
