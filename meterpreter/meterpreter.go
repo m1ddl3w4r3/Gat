@@ -10,7 +10,7 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/m1ddl3w4r3/gat/shell"
+	"github.com/m1ddl3w4r3/Gat/shell"
 )
 
 // Meterpreter function allows to connect back
