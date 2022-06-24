@@ -186,7 +186,7 @@ Active sessions
 
   Id  Name  Type                     Information                            Connection
   --  ----  ----                     -----------                            ----------
-  1         meterpreter x64/windows  LWS01\sconner @ LWS01  172.16.122.105:8443 -> 172.16.122.105:44804 (10.0.2.15)
+  1         meterpreter x64/windows  EVILCORP\sconner @ LWS01  172.16.122.105:8443 -> 172.16.122.105:44804 (10.0.2.15)
 
 [14:16:48][172.16.122.105][Sessions: 1][Jobs: 1] exploit(multi/handler) > sessions -i 1
 [*] Starting interaction with 1...
@@ -220,7 +220,7 @@ A new malleable session should pop in `msfconsole`:
 ```bash
 
 malleable > getuid
-Server username: DESKTOP-3PVV31A\lab
+Server username: EVILCORP\sconner
 
 
 
