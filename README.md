@@ -231,7 +231,7 @@ A new meterpreter session should pop in `msfconsole`:
 
 meterpreter > getuid
 Server username: EVILCORP\sconner
-
+```
 
 
 ## Credits
