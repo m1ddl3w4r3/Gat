@@ -24,8 +24,11 @@ Since it's written in Go, you can cross compile the source for the desired archi
 
 As this is a Go project, you will need to follow the [official documentation](https://golang.org/doc/install) to set up
 your Golang environment (with the `$GOPATH` environment variable).\
+\
 REQUIRES:\
-https://www.github.com/optiv/mangle\
+https://www.github.com/optiv/mangle
+\
+After installing mangle add directory path to ./Gat.sh
 
 Then, just run `go get github.com/m1ddl3w4r3/Gat` to fetch the project.
 
