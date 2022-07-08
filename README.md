@@ -47,9 +47,9 @@ The following special commands are supported:
 ### Basic usage
 
 One can use various tools to handle incomming connections, by default Gat will use 'MSF's Multi Handler' for default shell catcher.\
-These shells can be upgraded to meterpreter shells using the 'meterpreter' command in Gat.\
+These shells can be upgraded to meterpreter shells using the 'meterpreter' command in Gat.
 
-Other options are available to catch shells and upgrade to 'meterpreter' such as:\
+Other options are available to catch shells and upgrade to 'meterpreter' such as:
 
 *socat\
 *ncat
