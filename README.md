@@ -1,7 +1,10 @@
 # Gat
 Golang Access Tool
+
 Simple TCP reverse shell written in [Go](https://golang.org).
 It uses TLS to secure the communications, and provide a certificate public key fingerprint pinning feature, preventing from traffic interception.
+
+###Note: I dont take credit for the majority of this code. This is a combination of two tools i use often in pentest with slight tweaks to change signatures and a script to automate the deployment of said tools.
 
 Supported OS are:
 
@@ -137,4 +140,5 @@ $ make macos64 LHOST=192.168.0.12 LPORT=1234
 ```
 
 ## Credits
-Ronan Kervella `<r.kervella -at- sysdream -dot- com>`
+Ronan Kervella `<r.kervella -at- sysdream -dot- com>` - For his hershell repo.
+@Tyl0us - For his awesome work on Mangle.
