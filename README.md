@@ -140,5 +140,5 @@ $ make macos64 LHOST=192.168.0.12 LPORT=1234
 ```
 
 ## Credits
-Ronan Kervella `<r.kervella -at- sysdream -dot- com>` - For his hershell repo.
+Ronan Kervella `<r.kervella -at- sysdream -dot- com>` - For his hershell repo.\
 @Tyl0us - For his awesome work on Mangle.
