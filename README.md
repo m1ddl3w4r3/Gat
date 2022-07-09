@@ -36,7 +36,7 @@ Other options are available such as:
 These shells can be upgraded to meterpreter shells using the 'meterpreter' command in Gat.
 
 ##Gat.sh to make things easy.
-***WARNING*** Change CN 
+***WARNING*** Change CN in make file to accurately reflect you Orgs Certificate or Hostname of HTTPS server.
 ```
 ./Gat.sh - Will show example and ascii art.
 ./Gat.sh [ Windows|Mac|Linux ] <LHOST> <LPORT> - Will generate given OS type payload.
