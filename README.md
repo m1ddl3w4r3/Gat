@@ -20,7 +20,7 @@ your Golang environment.\
 (with the `$GOPATH` environment variable).
 
 ```
-git clone https://github.comm1ddl3w4r3/Gat.git
+git clone https://github.com/m1ddl3w4r3/Gat.git
 cd Gat
 go mod init Gat/Gat
 go mod tidy
