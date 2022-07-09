@@ -21,7 +21,6 @@ git clone https://github.comm1ddl3w4r3/Gat.git
 cd Gat
 go mod init Gat/Gat
 go mod tidy
-go get github.com/Binject/debug/pe
 go build Mangle.go
 ```
 ## Usage
