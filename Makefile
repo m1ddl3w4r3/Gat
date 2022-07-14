@@ -35,4 +35,4 @@ macos64:
 	GOOS=darwin GOARCH=amd64 ${BUILD} ${LINUX_LDFLAGS} -o ${OUT_LINUX} ${SRC}
 
 clean:
-	rm -f ${SRV_KEY} ${SRV_PEM} Agents meterpreter/Gat.rc
+	rm -rf ${SRV_KEY} ${SRV_PEM} Agents/ meterpreter/Gat.rc
