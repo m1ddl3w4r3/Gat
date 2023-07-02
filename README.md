@@ -17,13 +17,20 @@ Supported OS are:
 
 Since this is a Go project, you will need to follow the [official documentation](https://golang.org/doc/install) to set up
 your Golang environment.\
-(with the `$GOPATH` environment variable).
+(with the `$GOPATH` environment variable).\
+Pre-requsite \
+
+```
+go install mvdan.cc/garble@latest
+```
+
 
 ```
 git clone https://github.com/m1ddl3w4r3/Gat.git
 cd Gat
 go mod init Gat/Gat
 go mod tidy
+cd utils/
 go build Mangle.go
 ```
 ## Usage
