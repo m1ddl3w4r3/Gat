@@ -18,7 +18,8 @@ Supported OS are:
 Since this is a Go project, you will need to follow the [official documentation](https://golang.org/doc/install) to set up
 your Golang environment.\
 (with the `$GOPATH` environment variable).\
-Pre-requsite\
+
+Prerequisite
 
 ```
 go install mvdan.cc/garble@latest
